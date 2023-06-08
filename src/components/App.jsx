@@ -7,8 +7,8 @@ import Main from './Main/Main';
 import Footer from './Footer/Footer';
 import ImagePopup from './ImagePopup/ImagePopup';
 import EditProfilePopup from './EditProfilePopup/EditProfilePopup';
-import EditAvatarPopup from './EditAvatarPopup/EditAvatarPopup.jsx';
-import AddPlacePopup from './AddPlacePopup/AddPlacePopup.jsx';
+import EditAvatarPopup from './EditAvatarPopup/EditAvatarPopup';
+import AddPlacePopup from './AddPlacePopup/AddPlacePopup';
 
 import DeletePlacePopup from './DeletePlacePopup/DeletePlacePopup.jsx';
 
