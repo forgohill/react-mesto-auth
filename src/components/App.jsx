@@ -297,7 +297,58 @@ function App() {
         </DeletePlacePopup>
 
 
-      </CurrentUserContext.Provider>
+        <div className='popup popup_info-tool-tip'
+        // <div className='popup popup_info-tool-tip popup_opened'
+
+        // onClick={onOverlayClick}
+        >
+          <div className="popup__container">
+
+            <div className='popup__union popup__union_type_access'>
+            </div>
+
+            <h2 className="popup__title popup__title_info-tool-tip">Вы успешно зарегистрировались!</h2>
+
+            <button
+              type="button"
+              name="button-close"
+              aria-label="Закрыть окно"
+              className="popup__close popup__close_edit links"
+            // onClick={closePopup}
+            >
+            </button>
+
+          </div>
+        </div>
+
+
+        <div className='popup popup_info-tool-tip'
+        // <div className='popup popup_info-tool-tip popup_opened'
+
+        // onClick={onOverlayClick}
+        >
+          <div className="popup__container">
+
+            <div className='popup__union popup__union_type_fail'>
+            </div>
+
+            <h2 className="popup__title popup__title_info-tool-tip">Что-то пошло не так!
+              Попробуйте ещё раз.</h2>
+
+            <button
+              type="button"
+              name="button-close"
+              aria-label="Закрыть окно"
+              className="popup__close popup__close_edit links"
+            // onClick={closePopup}
+            >
+            </button>
+
+          </div>
+        </div>
+
+
+      </CurrentUserContext.Provider >
 
     </div >
   );

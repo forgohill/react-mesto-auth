@@ -72,6 +72,13 @@
 @import url(../blocks/popup/__figcaption/popup__figcaption.css);
 
 
+@import url(../blocks/popup/__union/popup__union.css);
+@import url(../blocks/popup/__union/_type/popup__union_type_access.css);
+@import url(../blocks/popup/__union/_type/popup__union_type_fail.css);
+@import url(../blocks/popup/__title/_info-tool-tip/popup__title_info-tool-tip.css);
+
+
+
 /* ======================= LINKS =============================== */
 @import url(../blocks/links/links.css);
 
