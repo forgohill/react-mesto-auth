@@ -8,15 +8,21 @@ import {
 function Header() {
   return (
     <header className="header">
-      <a href="https://forgohill.github.io/mesto-react/"
-        className="header__link links"
-        title="Переход на главную - проект: место.">
-        <img
-          src={headerLogo}
-          alt="Логотип проекта Место"
-          className="header__logo" />
-      </a>
+      <div className='header__wrapper'>
+
+        <a href="#"
+          className="header__link links"
+          title="Переход на главную - проект: место.">
+          <img
+            src={headerLogo}
+            alt="Логотип проекта Место"
+            className="header__logo" />
+        </a>
+
+        <p className="header__login">Регистрация</p>
+      </div >
     </header>
+
   );
 }
 

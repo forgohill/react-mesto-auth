@@ -1,4 +1,6 @@
 import React from 'react';
+import { Routes, Route } from 'react-router-dom'
+
 
 import api from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
@@ -9,6 +11,8 @@ import ImagePopup from './ImagePopup/ImagePopup';
 import EditProfilePopup from './EditProfilePopup/EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup/EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup/AddPlacePopup';
+import Register from './Register/Register.jsx';
+import Login from './Login/Login.jsx';
 
 import DeletePlacePopup from './DeletePlacePopup/DeletePlacePopup.jsx';
 
@@ -218,16 +222,32 @@ function App() {
       <CurrentUserContext.Provider value={currentUser}>
 
         <Header />
-        <Main
-          onChangeAvatar={handleEditAvatarClick}
-          onEditProfile={handleEditProfileClick}
-          onAddCard={handleAddCardClick}
-          onSelectedCard={handleCardImageClick}
-          onCardLike={handleCardLike}
-          onCardDelete={handleCardDelete}
-          cards={cards}
-        />
-        <Footer />
+        <Routes>
+          <Route path='/'
+            element={(
+              <>
+                <Main
+                  onChangeAvatar={handleEditAvatarClick}
+                  onEditProfile={handleEditProfileClick}
+                  onAddCard={handleAddCardClick}
+                  onSelectedCard={handleCardImageClick}
+                  onCardLike={handleCardLike}
+                  onCardDelete={handleCardDelete}
+                  cards={cards}
+                />
+                <Footer />
+              </>
+            )} />
+          <Route path='/sign-up'
+            element={<Register />}
+          />
+          <Route path='/sign-in'
+            element={<Login />}
+          />
+
+
+        </Routes>
+
 
         {/* ПРЕВЬЮХА */}
         <ImagePopup
@@ -284,5 +304,6 @@ function App() {
 }
 
 export default App;
+
 
 

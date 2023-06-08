@@ -7,8 +7,12 @@
 
 /* ======================= HEADER =============================== */
 @import url(../blocks/header/header.css);
+
+@import url(../blocks/header/__wrapper/header__wrapper.css);
 @import url(../blocks/header/__link/header__link.css);
 @import url(../blocks/header/__logo/header__logo.css);
+@import url(../blocks/header/__login/header__login.css);
+
 
 /* ======================= MAIN =============================== */
 @import url(../blocks/main/main.css);
@@ -70,3 +74,28 @@
 
 /* ======================= LINKS =============================== */
 @import url(../blocks/links/links.css);
+
+
+
+/* ======================= REGISTER =============================== */
+@import url(../blocks/register/register.css);
+
+/* ======================= LOGIN =============================== */
+@import url(../blocks/login/login.css);
+
+/* ======================= ENTRY-PAGE =============================== */
+@import url(../blocks/entry-page/entry-page.css);
+
+
+@import url(../blocks/entry-page/__wrapper/entry-page__wrapper.css);
+@import url(../blocks/entry-page/__title/entry-page__title.css);
+@import url(../blocks/entry-page/__form/entry-page__form.css);
+@import url(../blocks/entry-page/__form/_register/entry-page__form_register.css);
+@import url(../blocks/entry-page/__form/_login/entry-page__form_login.css);
+@import url(../blocks/entry-page/__input/entry-page__input.css);
+@import url(../blocks/entry-page/__input/_email/entry-page__input_email.css);
+@import url(../blocks/entry-page/__input/_password/entry-page__input_password.css);
+@import url(../blocks/entry-page/__submit/entry-page__submit.css);
+@import url(../blocks/entry-page/__paragraph/entry-page__paragraph.css);
+@import url(../blocks/entry-page/__accent/entry-page__accent.css);
+@import url(../blocks/entry-page/__link/entry-page__link.css);
