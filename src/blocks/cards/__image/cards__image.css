@@ -1,0 +1,13 @@
+.cards__image {
+  display: flex;
+  margin: 0 auto;
+  padding: 0;
+
+  min-height: 282px;
+  width: 100%;
+
+  object-fit: cover;
+  object-position: center;
+
+  cursor: pointer;
+}
