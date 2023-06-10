@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 const Register = () => {
   return (
     <div className='register entry-page'>

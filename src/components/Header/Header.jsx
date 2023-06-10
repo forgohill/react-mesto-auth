@@ -1,11 +1,10 @@
 import React from 'react';
 
-import {
-  headerLogo,
-} from '../../utils/images.js'
+import { Link } from 'react-router-dom'
+import { headerLogo } from '../../utils/images.js'
 
 
-function Header() {
+function Header({ isLoggedIn }) {
   return (
     <header className="header">
       <div className='header__wrapper'>
@@ -18,8 +17,10 @@ function Header() {
             alt="Логотип проекта Место"
             className="header__logo" />
         </a>
-
-        <p className="header__login">Регистрация</p>
+        {isLoggedIn
+          ? <Link to='/sign-in' className="header__login links">Войти</Link>
+          : <Link to='/sign-up' className="header__login links">Регистрация</Link>
+        }
       </div >
     </header>
 
