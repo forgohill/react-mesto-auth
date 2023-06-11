@@ -35,7 +35,8 @@ function App() {
   const [isDisabled, setIsDisabled] = React.useState(false);
   // стейт навигации
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-
+  // стейт хранения email
+  const [userEmail, setUserEmail] = React.useState('');
 
   // блок обработчиков кнопок
   const handleEditAvatarClick = () => {
@@ -166,9 +167,7 @@ function App() {
         console.error(err);
         setIsDisabled(false);
       });
-
   }
-
 
   // нажатие ДА в попап удалить Карточку
   const handleConfirmDeleteCardClick = () => {
@@ -196,23 +195,26 @@ function App() {
 
   //  Проверка токена
   const tockenCheck = () => {
-
     const token = localStorage.getItem('token');
-
     if (token) {
       checkToken(token)
         .then((res) => {
+          const { email } = res.data;
+          console.log(email);
 
-
-          console.log(res);
+          setUserEmail(email);
           setIsLoggedIn(true);
-
-          console.log(isLoggedIn);
+          console.log(userEmail);
+          // console.log(isLoggedIn);
           navigate('/', { replace: true });
         })
         .catch((err) => { console.error(err); })
     }
+  }
 
+  // удаление токена
+  const removeToken = () => {
+    localStorage.removeItem('token');
   }
 
   // первая инициализация данных с сервера
@@ -245,7 +247,7 @@ function App() {
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
 
-        <Header isLoggedIn={isLoggedIn} />
+        <Header isLoggedIn={isLoggedIn} userEmail={userEmail} onSignOut={removeToken} />
         <Routes>
           {/* <Route path='/' element={
             isLoggedIn

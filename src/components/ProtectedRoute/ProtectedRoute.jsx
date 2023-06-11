@@ -3,8 +3,8 @@ import { Navigate } from 'react-router-dom';
 const ProtectedRoute = ({ element: Component, ...props }) => {
 
 
-  console.log(Component);
-  console.log(props);
+  // console.log(Component);
+  // console.log(props);
   const { isLoggedIn } = props;
 
   return (

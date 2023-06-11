@@ -11,7 +11,9 @@
 @import url(../blocks/header/__wrapper/header__wrapper.css);
 @import url(../blocks/header/__link/header__link.css);
 @import url(../blocks/header/__logo/header__logo.css);
-@import url(../blocks/header/__login/header__login.css);
+@import url(../blocks/header/__paragraph/header__paragraph.css);
+
+@import url(../blocks/header/__logout/header__logout.css);
 
 
 /* ======================= MAIN =============================== */

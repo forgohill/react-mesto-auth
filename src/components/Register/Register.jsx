@@ -64,7 +64,7 @@ const Register = () => {
       </form>
       <p className='entry-page__paragraph'>Уже зарегистрированы?&ensp;
         <span className='entry-page__accent'>
-          <Link to='/sing-in' className='entry-page__link links' href="#">Войти</Link>
+          <Link to='/sign-in' className='entry-page__link links' href="#">Войти</Link>
         </span></p>
     </div>
   );
