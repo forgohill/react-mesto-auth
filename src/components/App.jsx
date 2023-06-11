@@ -1,7 +1,8 @@
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 
 import api from '../utils/api';
+import { checkToken } from '../utils/auth.js';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import Header from './Header/Header';
 import Main from './Main/Main';
@@ -33,7 +34,7 @@ function App() {
   // стейт enable/disable
   const [isDisabled, setIsDisabled] = React.useState(false);
   // стейт навигации
-  const [isLoggedIn, setIsLoggedIn] = React.useState(true);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
 
   // блок обработчиков кнопок
@@ -191,8 +192,35 @@ function App() {
       });
   }
 
+  const navigate = useNavigate();
+
+  //  Проверка токена
+  const tockenCheck = () => {
+
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      checkToken(token)
+        .then((res) => {
+
+
+          console.log(res);
+          setIsLoggedIn(true);
+
+          console.log(isLoggedIn);
+          navigate('/', { replace: true });
+        })
+        .catch((err) => { console.error(err); })
+    }
+
+  }
+
   // первая инициализация данных с сервера
   React.useEffect(() => {
+    // API чекаем токен
+    tockenCheck();
+
+
 
     // API получения и запись стейта текущийЮзер
     api.getUserInfo()
@@ -219,27 +247,66 @@ function App() {
 
         <Header isLoggedIn={isLoggedIn} />
         <Routes>
-          <Route path='/'
-            element={(
-              <ProtectedRoute isLoggedIn={isLoggedIn}>
+          {/* <Route path='/' element={
+            isLoggedIn
+              ? <><Main
+                onChangeAvatar={handleEditAvatarClick}
+                onEditProfile={handleEditProfileClick}
+                onAddCard={handleAddCardClick}
+                onSelectedCard={handleCardImageClick}
+                onCardLike={handleCardLike}
+                onCardDelete={handleCardDelete}
+                cards={cards}
+              /><Footer /></>
+              : <Login />
+          } /> */}
+          <Route path='/' element={
+            <>
+              <ProtectedRoute element={Main} isLoggedIn={isLoggedIn} onChangeAvatar={handleEditAvatarClick}
+                onEditProfile={handleEditProfileClick}
+                onAddCard={handleAddCardClick}
+                onSelectedCard={handleCardImageClick}
+                onCardLike={handleCardLike}
+                onCardDelete={handleCardDelete}
+                cards={cards} />
+              <ProtectedRoute element={Footer} isLoggedIn={isLoggedIn} />
+            </>
+          } />
 
-                <>
-                  <Main
-                    onChangeAvatar={handleEditAvatarClick}
-                    onEditProfile={handleEditProfileClick}
-                    onAddCard={handleAddCardClick}
-                    onSelectedCard={handleCardImageClick}
-                    onCardLike={handleCardLike}
-                    onCardDelete={handleCardDelete}
-                    cards={cards}
-                  />
-                  <Footer />
-                </>
+          {/* <Route path='/'
+            element={
+              <ProtectedRoute
+                isLoggedIn={isLoggedIn}
+                onChangeAvatar={handleEditAvatarClick}
+                onEditProfile={handleEditProfileClick}
+                onAddCard={handleAddCardClick}
+                onSelectedCard={handleCardImageClick}
+                onCardLike={handleCardLike}
+                onCardDelete={handleCardDelete}
+                cards={cards}
+                element={<Main />
+                }>
+              </ProtectedRoute>} /> */}
 
 
-              </ProtectedRoute>
-            )
-            } />
+          {/*
+              <Route path='/'
+            element={
+              <ProtectedRoute
+                isLoggedIn={isLoggedIn}
+                element={<><Main
+                  onChangeAvatar={handleEditAvatarClick}
+                  onEditProfile={handleEditProfileClick}
+                  onAddCard={handleAddCardClick}
+                  onSelectedCard={handleCardImageClick}
+                  onCardLike={handleCardLike}
+                  onCardDelete={handleCardDelete}
+                  cards={cards}
+                /><Footer /></>
+                }>
+              </ProtectedRoute>} /> */}
+
+
           <Route path='/sign-up'
             element={<Register />}
           />

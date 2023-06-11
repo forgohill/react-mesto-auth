@@ -5,6 +5,9 @@ import { headerLogo } from '../../utils/images.js'
 
 
 function Header({ isLoggedIn }) {
+
+  console.log(`хедер : ${isLoggedIn}`);
+
   return (
     <header className="header">
       <div className='header__wrapper'>
