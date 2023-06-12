@@ -1,9 +1,6 @@
 import React from 'react';
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 
-import api from '../utils/api';
-import { checkToken } from '../utils/auth.js';
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import Header from './Header/Header';
 import Main from './Main/Main';
 import Footer from './Footer/Footer';
@@ -11,11 +8,14 @@ import ImagePopup from './ImagePopup/ImagePopup';
 import EditProfilePopup from './EditProfilePopup/EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup/EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup/AddPlacePopup';
-import Register from './Register/Register.jsx';
-import Login from './Login/Login.jsx';
-import ProtectedRoute from './ProtectedRoute/ProtectedRoute.jsx';
+import DeletePlacePopup from './DeletePlacePopup/DeletePlacePopup';
+import Register from './Register/Register';
+import Login from './Login/Login';
+import ProtectedRoute from './ProtectedRoute/ProtectedRoute';
 
-import DeletePlacePopup from './DeletePlacePopup/DeletePlacePopup.jsx';
+import api from '../utils/api';
+import { register, authorize, checkToken } from '../utils/auth.js';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function App() {
   // стейты для попапов
@@ -212,17 +212,58 @@ function App() {
     }
   }
 
+  // выполнение входа / login
+  const handleLogin = (password, email) => {
+    console.log('login');
+
+    authorize(password, email)
+      .then((res) => {
+        // console.log(res);
+        const { token } = res;
+        localStorage.setItem('token', token);
+        setIsLoggedIn(true);
+        navigate('/', { replace: true });
+        // localStorage.removeItem('token');
+        // console.log(localStorage.token);
+
+        // console.log(token);
+      })
+      .catch((err) => { console.error(err) })
+  }
+
+  // выполнение регистрации / register
+  const handleRegister = (password, email) => {
+    console.log('register');
+
+
+    register(password, email)
+      .then((res) => {
+        // debugger;
+        console.log(res);
+        if (password && email) {
+          navigate('/sign-in', { replace: true });
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+
+
+  }
+
+
   // удаление токена
   const removeToken = () => {
     localStorage.removeItem('token');
+    setIsLoggedIn(false);
+    navigate('/sign-in', { replace: true });
   }
 
   // первая инициализация данных с сервера
   React.useEffect(() => {
+
     // API чекаем токен
     tockenCheck();
-
-
 
     // API получения и запись стейта текущийЮзер
     api.getUserInfo()
@@ -241,6 +282,7 @@ function App() {
       .catch((err) => {
         console.error(err);
       })
+
   }, []);
 
   return (
@@ -249,71 +291,32 @@ function App() {
 
         <Header isLoggedIn={isLoggedIn} userEmail={userEmail} onSignOut={removeToken} />
         <Routes>
-          {/* <Route path='/' element={
-            isLoggedIn
-              ? <><Main
-                onChangeAvatar={handleEditAvatarClick}
-                onEditProfile={handleEditProfileClick}
-                onAddCard={handleAddCardClick}
-                onSelectedCard={handleCardImageClick}
-                onCardLike={handleCardLike}
-                onCardDelete={handleCardDelete}
-                cards={cards}
-              /><Footer /></>
-              : <Login />
-          } /> */}
           <Route path='/' element={
             <>
-              <ProtectedRoute element={Main} isLoggedIn={isLoggedIn} onChangeAvatar={handleEditAvatarClick}
+              <ProtectedRoute element={Main}
+                isLoggedIn={isLoggedIn}
+                onChangeAvatar={handleEditAvatarClick}
                 onEditProfile={handleEditProfileClick}
                 onAddCard={handleAddCardClick}
                 onSelectedCard={handleCardImageClick}
                 onCardLike={handleCardLike}
                 onCardDelete={handleCardDelete}
                 cards={cards} />
-              <ProtectedRoute element={Footer} isLoggedIn={isLoggedIn} />
+              <ProtectedRoute
+                element={Footer}
+                isLoggedIn={isLoggedIn} />
             </>
           } />
 
-          {/* <Route path='/'
-            element={
-              <ProtectedRoute
-                isLoggedIn={isLoggedIn}
-                onChangeAvatar={handleEditAvatarClick}
-                onEditProfile={handleEditProfileClick}
-                onAddCard={handleAddCardClick}
-                onSelectedCard={handleCardImageClick}
-                onCardLike={handleCardLike}
-                onCardDelete={handleCardDelete}
-                cards={cards}
-                element={<Main />
-                }>
-              </ProtectedRoute>} /> */}
-
-
-          {/*
-              <Route path='/'
-            element={
-              <ProtectedRoute
-                isLoggedIn={isLoggedIn}
-                element={<><Main
-                  onChangeAvatar={handleEditAvatarClick}
-                  onEditProfile={handleEditProfileClick}
-                  onAddCard={handleAddCardClick}
-                  onSelectedCard={handleCardImageClick}
-                  onCardLike={handleCardLike}
-                  onCardDelete={handleCardDelete}
-                  cards={cards}
-                /><Footer /></>
-                }>
-              </ProtectedRoute>} /> */}
-
-
           <Route path='/sign-up'
-            element={<Register />}
+            element={<Register
+              onRegister={handleRegister}
+            />}
           />
           <Route path='/sign-in'
-            element={<Login />}
+            element={<Login
+              onLogin={handleLogin}
+            />}
           />
 
 

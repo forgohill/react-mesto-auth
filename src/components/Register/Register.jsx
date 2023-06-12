@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { register } from '../../utils/auth';
+// import { register } from '../../utils/auth';
 
-const Register = () => {
+const Register = ({ onRegister }) => {
   const [formValue, setFormValue] = React.useState({
     email: '',
     password: ''
   });
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,15 +21,8 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const { email, password } = formValue;
-    register(password, email)
-      .then((res) => {
-        // debugger;
-        console.log(res);
-        navigate('/sign-in', { replace: true });
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    onRegister(password, email);
+
   }
 
   return (

@@ -14,4 +14,10 @@
   color: #FFFFFF;
 
   text-decoration: none;
+
+
+}
+
+.header__logout:hover {
+  cursor: pointer;
 }

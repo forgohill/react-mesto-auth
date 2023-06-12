@@ -1,18 +1,17 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { authorize } from '../../utils/auth'
+// import { authorize } from '../../utils/auth'
 
 
-const Login = () => {
-
+const Login = ({ onLogin }) => {
 
   const [formValue, setFormValue] = React.useState({
     email: '',
     password: ''
   });
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,22 +24,10 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const { email, password } = formValue;
+    onLogin(password, email);
 
     console.log(formValue);
-    const { email, password } = formValue;
-
-    authorize(password, email)
-      .then((res) => {
-        // console.log(res);
-        const { token } = res;
-        localStorage.setItem('token', token);
-        // localStorage.removeItem('token');
-        // console.log(localStorage.token);
-
-        // console.log(token);
-      })
-      .catch((err) => { console.error(err) })
-
   }
 
   return (
