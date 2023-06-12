@@ -45,6 +45,7 @@ const Login = ({ onLogin }) => {
           onChange={handleChange}
           className='entry-page__input entry-page__input_email'
           placeholder='Email'
+          required
         />
         <input
           type="password"
@@ -53,6 +54,7 @@ const Login = ({ onLogin }) => {
           onChange={handleChange}
           className='entry-page__input entry-page__input_password'
           placeholder='Пароль'
+          required
         />
         <button
           type="submit"

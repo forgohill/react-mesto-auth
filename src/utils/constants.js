@@ -50,6 +50,13 @@ export const configApi = {
 
 
 export const configAuth = {
-  BASE_URL: 'https://auth.nomoreparties.co'
-
+  BASE_URL: 'https://auth.nomoreparties.co',
+  headers: {
+    'Content-type': 'application/json',
+  },
+  endpoint: {
+    ENDPOINT_REGISER: '/signup',
+    ENDPOINT_AUTH: '/signin',
+    ENDPOINT_CHECKJWL: '/users/me',
+  }
 }

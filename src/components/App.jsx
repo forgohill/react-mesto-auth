@@ -11,6 +11,7 @@ import AddPlacePopup from './AddPlacePopup/AddPlacePopup';
 import DeletePlacePopup from './DeletePlacePopup/DeletePlacePopup';
 import Register from './Register/Register';
 import Login from './Login/Login';
+import InfoTooltip from './InfoTooltip/InfoTooltip.jsx';
 import ProtectedRoute from './ProtectedRoute/ProtectedRoute';
 
 import api from '../utils/api';
@@ -23,6 +24,8 @@ function App() {
   const [isOpenedPopupEditProfile, setIsOpenedPopupEditProfile] = React.useState(false);
   const [isOpenedPopupAddCard, setIsOpenedPopupAddCard] = React.useState(false);
   const [isOpenedPopupConfirmDeleteCard, setIsOpenedPopupConfirmDeleteCard] = React.useState(false);
+  const [isOpenedPopupInfoTooltip, setIsOpenedPopupInfoTooltip] = React.useState(false);
+
   // стетейт массив карточек
   const [cards, setCards] = React.useState([]);
   // стейт Context
@@ -37,6 +40,12 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   // стейт хранения email
   const [userEmail, setUserEmail] = React.useState('');
+  //стейт для хранения типа ошибок
+  const [sourceInfoTooltips, setSourceInfoTooltips] = React.useState({
+    access: false,
+    message: '',
+  });
+
 
   // блок обработчиков кнопок
   const handleEditAvatarClick = () => {
@@ -88,8 +97,11 @@ function App() {
     setIsOpenedPopupEditProfile(false);
     setIsOpenedPopupAddCard(false);
     setIsOpenedPopupConfirmDeleteCard(false);
+    setIsOpenedPopupInfoTooltip(false);
     setSelectedCard(null);
     setSelectedConfirmDeleteCard(null);
+    // setSourceInfoTooltips({ access: false, message: '', });
+
   }
 
   // ставим/удаляем Like
@@ -191,6 +203,10 @@ function App() {
       });
   }
 
+  // ////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////
+
   const navigate = useNavigate();
 
   //  Проверка токена
@@ -212,43 +228,51 @@ function App() {
     }
   }
 
-  // выполнение входа / login
+  // выполнение аторизации
   const handleLogin = (password, email) => {
-    console.log('login');
+    // console.log('login');
 
     authorize(password, email)
       .then((res) => {
-        // console.log(res);
-        const { token } = res;
-        localStorage.setItem('token', token);
-        setIsLoggedIn(true);
-        navigate('/', { replace: true });
-        // localStorage.removeItem('token');
-        // console.log(localStorage.token);
-
-        // console.log(token);
+        if (password && email !== '') {
+          const { token } = res;
+          localStorage.setItem('token', token);
+          setUserEmail(email);
+          setIsLoggedIn(true);
+          setIsOpenedPopupInfoTooltip(true);
+          navigate('/', { replace: true });
+        }
       })
-      .catch((err) => { console.error(err) })
+      .catch((err) => {
+        if (err === 401) { console.log('401') }
+        else if (err === 400) { console.log('400') };
+      })
   }
 
   // выполнение регистрации / register
   const handleRegister = (password, email) => {
     console.log('register');
 
-
     register(password, email)
       .then((res) => {
-        // debugger;
         console.log(res);
-        if (password && email) {
-          navigate('/sign-in', { replace: true });
-        }
+        setSourceInfoTooltips({
+          access: true,
+          message: 'Вы успешно зарегистрировались!',
+        })
+        setIsOpenedPopupInfoTooltip(true);
+        setIsLoggedIn(true);
+        navigate('/sign-in', { replace: true });
       })
       .catch((err) => {
+
+        setSourceInfoTooltips({
+          access: false,
+          message: 'Это e-mail уже зарегестрирован, войдите используя пароль',
+        })
+        setIsOpenedPopupInfoTooltip(true);
         console.error(err);
       });
-
-
   }
 
 
@@ -256,6 +280,7 @@ function App() {
   const removeToken = () => {
     localStorage.removeItem('token');
     setIsLoggedIn(false);
+    setUserEmail('');
     navigate('/sign-in', { replace: true });
   }
 
@@ -274,7 +299,7 @@ function App() {
         console.error(err);
       });
 
-    // API инициалищируем карточки
+    // API инициализируем карточки
     api.getCards()
       .then((data) => {
         setCards(data);
@@ -370,6 +395,13 @@ function App() {
         >
         </DeletePlacePopup>
 
+        <InfoTooltip
+          isLoggedIn={isLoggedIn}
+          openPopup={isOpenedPopupInfoTooltip}
+          closePopup={closeAllPopups}
+          onOverlayClick={handleOverlayClick}
+          sourceInfoTooltips={sourceInfoTooltips}
+        ></InfoTooltip>
 
         <div className='popup popup_info-tool-tip'
         // <div className='popup popup_info-tool-tip popup_opened'

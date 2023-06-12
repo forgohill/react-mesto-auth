@@ -1,56 +1,76 @@
-export const BASE_URL = 'https://auth.nomoreparties.co';
+import { configAuth } from '../utils/constants'
+
+const {
+  BASE_URL,
+  headers,
+  endpoint } = configAuth;
+const {
+  ENDPOINT_REGISER,
+  ENDPOINT_AUTH,
+  ENDPOINT_CHECKJWL } = endpoint;
+
+const checkError = (res) => {
+  if (res.ok) {
+    return res.json();
+  }
+  else {
+    // return Promise.reject(`ПРОИЗОШЛА ОШИБКА: ${res.status} `)
+    return Promise.reject(res.status);
+  }
+}
 
 export const register = (password, email) => {
-  return fetch(`${BASE_URL}/signup`,
+  return fetch(`${BASE_URL}${ENDPOINT_REGISER}`,
     {
       method: 'POST',
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers,
       body: JSON.stringify({ password, email })
     }
   )
     .then((response) => {
-      // debugger;
-      try {
-        if (response.ok) {
-          return response.json();
-        }
-      } catch (error) {
-        return (error);
-      }
+      return checkError(response);
     })
-    .then((res) => { return res; })
-    .catch((err) => { console.error(err) })
+  // .then((response) => {
+  //   // debugger;
+  //   try {
+  //     if (response.ok) {
+  //       return response.json();
+  //     }
+  //   } catch (error) {
+  //     return (error);
+  //   }
+  // })
+  // .then((res) => { return res; })
+  // .catch((err) => { console.error(err) })
 };
 
 export const authorize = (password, email) => {
   return fetch(
-    `${BASE_URL}/signin`,
+    `${BASE_URL}${ENDPOINT_AUTH}`,
     {
       method: 'POST',
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers,
       body: JSON.stringify({ password, email })
     })
     .then((response) => {
-      try {
-        if (response.ok) {
-          return response.json();
-        }
-      } catch (error) {
-        return (error);
-      }
+      return checkError(response);
     })
-    // .then((res) => { console.log(res) })
-    .catch((err) => { console.error(err); })
+  // .then((response) => {
+  //   try {
+  //     if (response.ok) {
+  //       return response.json();
+  //     }
+  //   } catch (response) {
+  //     return Promise.reject(`ПРОИЗОШЛА ОШИБКА: ${response.status} `)
+  //   }
+  // })
+  // .catch((err) => { console.error(err); })
 
 };
 
 export const checkToken = (token) => {
   return fetch(
-    `${BASE_URL}/users/me`,
+    `${BASE_URL}${ENDPOINT_CHECKJWL}`,
     {
       method: 'GET',
       headers: {

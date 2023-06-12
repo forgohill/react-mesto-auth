@@ -37,6 +37,7 @@ const Register = ({ onRegister }) => {
           value={formValue.email}
           className='entry-page__input entry-page__input_email'
           placeholder='Email'
+
         />
         <input
           name='password'
@@ -45,6 +46,7 @@ const Register = ({ onRegister }) => {
           value={formValue.password}
           className='entry-page__input entry-page__input_password'
           placeholder='Пароль'
+          required
         />
         <button
           type="submit"
