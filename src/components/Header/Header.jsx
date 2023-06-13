@@ -24,7 +24,7 @@ function Header({ userEmail, onSignOut }) {
 
         <Routes>
           <Route path='/' element={(
-            <div className='header__wrapper'>
+            <div className='header__container'>
               <p className='header__paragraph'>{`${userEmail}`}</p>
               <button
                 type="button"

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Login = ({ onLogin }) => {
+const Login = ({ onLogin, onDisabled }) => {
 
   const [formValue, setFormValue] = React.useState({
     email: '',
@@ -49,6 +49,7 @@ const Login = ({ onLogin }) => {
           required
         />
         <button
+          disabled={onDisabled}
           type="submit"
           className='entry-page__submit'>
           Войти

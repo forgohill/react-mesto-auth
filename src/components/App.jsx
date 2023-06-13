@@ -5,13 +5,15 @@ import Header from './Header/Header';
 import Main from './Main/Main';
 import Footer from './Footer/Footer';
 import ImagePopup from './ImagePopup/ImagePopup';
+import PageNotFound from './PageNotFound/PageNotFound';
 import EditProfilePopup from './EditProfilePopup/EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup/EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup/AddPlacePopup';
 import DeletePlacePopup from './DeletePlacePopup/DeletePlacePopup';
 import Register from './Register/Register';
 import Login from './Login/Login';
-import InfoTooltip from './InfoTooltip/InfoTooltip.jsx';
+import InfoTooltip from './InfoTooltip/InfoTooltip';
+
 import ProtectedRoute from './ProtectedRoute/ProtectedRoute';
 
 import api from '../utils/api';
@@ -233,6 +235,8 @@ function App() {
   // выполнение аторизации
   const handleLogin = (password, email) => {
 
+    setIsDisabled(true);
+
     authorize(password, email)
       .then((res) => {
         if (password && email !== '') {
@@ -260,10 +264,15 @@ function App() {
           })
         }
       })
+      .finally(() => {
+        setIsDisabled(false);
+      })
   }
 
   // выполнение регистрации / register
   const handleRegister = (password, email) => {
+
+    setIsDisabled(true);
 
     register(password, email)
       .then((res) => {
@@ -283,6 +292,7 @@ function App() {
             message: 'Это e-mail уже зарегестрирован, войдите используя пароль.',
           })
           setIsOpenedPopupInfoTooltip(true);
+          setIsDisabled(false);
         } else if (err !== 400) {
           console.error(`Что-то пошло не так! Попробуйте ещё раз. ОШИБКА : ${err}`);
           setSourceInfoTooltips({
@@ -290,7 +300,11 @@ function App() {
             message: 'Что-то пошло не так! Попробуйте ещё раз.',
           })
           setIsOpenedPopupInfoTooltip(true);
+          setIsDisabled(false);
         }
+      })
+      .finally(() => {
+        setIsDisabled(false);
       });
   }
 
@@ -354,11 +368,18 @@ function App() {
           <Route path='/sign-up'
             element={<Register
               onRegister={handleRegister}
+              onDisabled={isDisabled}
             />}
           />
           <Route path='/sign-in'
             element={<Login
               onLogin={handleLogin}
+              onDisabled={isDisabled}
+            />}
+          />
+
+          <Route path='*'
+            element={<PageNotFound
             />}
           />
         </Routes>

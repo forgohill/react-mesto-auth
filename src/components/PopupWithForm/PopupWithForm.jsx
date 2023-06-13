@@ -50,9 +50,7 @@ function PopupWithForm({
           aria-label="Закрыть окно"
           className="popup__close popup__close_edit links"
           onClick={closePopup}
-
         >
-
         </button>
 
       </div>
