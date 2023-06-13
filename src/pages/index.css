@@ -9,6 +9,7 @@
 @import url(../blocks/header/header.css);
 
 @import url(../blocks/header/__wrapper/header__wrapper.css);
+@import url(../blocks/header/__container/header__container.css);
 @import url(../blocks/header/__link/header__link.css);
 @import url(../blocks/header/__logo/header__logo.css);
 @import url(../blocks/header/__paragraph/header__paragraph.css);
@@ -83,7 +84,13 @@
 /* ======================= LINKS =============================== */
 @import url(../blocks/links/links.css);
 
-
+/* ======================= PAGE NOT FOUND ========================= */
+@import url(../blocks/page-not-found/page-not-found.css);
+@import url(../blocks/page-not-found/__wrapper/page-not-found__wrapper.css);
+@import url(../blocks/page-not-found/__title/page-not-found__title.css);
+@import url(../blocks/page-not-found/__subtitle/page-not-found__subtitle.css);
+@import url(../blocks/page-not-found/__accent/page-not-found__accent.css);
+@import url(../blocks/page-not-found/__link/page-not-found__link.css);
 
 /* ======================= REGISTER =============================== */
 @import url(../blocks/register/register.css);

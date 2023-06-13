@@ -1,0 +1,15 @@
+.header__container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+@media screen and (max-width: 450px) {
+  .header__container {
+    justify-content: flex-end;
+    /* padding: 25px 0 0; */
+    box-sizing: border-box;
+  }
+}

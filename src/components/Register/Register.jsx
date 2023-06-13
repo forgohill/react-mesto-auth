@@ -1,14 +1,11 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-// import { register } from '../../utils/auth';
 
-const Register = ({ onRegister }) => {
+const Register = ({ onRegister, onDisabled }) => {
   const [formValue, setFormValue] = React.useState({
     email: '',
     password: ''
   });
-
-  // const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -49,6 +46,7 @@ const Register = ({ onRegister }) => {
           required
         />
         <button
+          disabled={onDisabled}
           type="submit"
           className='entry-page__submit'
           aria-label="Зарегистрироваться на сайте"
