@@ -1,0 +1,25 @@
+.entry-page__submit {
+
+  margin: 216px 0 0;
+  padding: 14px 0;
+  border: 0;
+  border-radius: 2px;
+  outline: none;
+  background-color: #fff;
+
+  font-family: 'Inter', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.22;
+
+
+  text-align: center;
+  color: #000000;
+}
+
+.entry-page__submit:hover {
+  transition: 0.5s;
+  background-color: rgba(255, 255, 255, .85);
+  cursor: pointer;
+}

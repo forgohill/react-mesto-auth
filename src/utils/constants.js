@@ -47,3 +47,16 @@ export const configApi = {
     authorization: 'fedbf8d8-f685-4219-bcb3-9f8a312759fb'
   }
 };
+
+
+export const configAuth = {
+  BASE_URL: 'https://auth.nomoreparties.co',
+  headers: {
+    'Content-type': 'application/json',
+  },
+  endpoint: {
+    ENDPOINT_REGISER: '/signup',
+    ENDPOINT_AUTH: '/signin',
+    ENDPOINT_CHECKJWL: '/users/me',
+  }
+}

@@ -1,0 +1,14 @@
+.entry-page__paragraph {
+  margin: 15px 0 0;
+  padding: 0 0 80px;
+
+
+  font-family: 'Inter', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.21;
+
+  text-align: center;
+  color: #FFFFFF;
+}

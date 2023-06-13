@@ -1,0 +1,23 @@
+.header__logout {
+  margin: 0 0 0 24px;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background-color: transparent;
+
+  font-family: 'Inter', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.22;
+
+  color: #FFFFFF;
+
+  text-decoration: none;
+
+
+}
+
+.header__logout:hover {
+  cursor: pointer;
+}
