@@ -14,7 +14,6 @@ const checkError = (res) => {
     return res.json();
   }
   else {
-    // return Promise.reject(`ПРОИЗОШЛА ОШИБКА: ${res.status} `)
     return Promise.reject(res.status);
   }
 }
@@ -30,18 +29,6 @@ export const register = (password, email) => {
     .then((response) => {
       return checkError(response);
     })
-  // .then((response) => {
-  //   // debugger;
-  //   try {
-  //     if (response.ok) {
-  //       return response.json();
-  //     }
-  //   } catch (error) {
-  //     return (error);
-  //   }
-  // })
-  // .then((res) => { return res; })
-  // .catch((err) => { console.error(err) })
 };
 
 export const authorize = (password, email) => {
@@ -55,17 +42,6 @@ export const authorize = (password, email) => {
     .then((response) => {
       return checkError(response);
     })
-  // .then((response) => {
-  //   try {
-  //     if (response.ok) {
-  //       return response.json();
-  //     }
-  //   } catch (response) {
-  //     return Promise.reject(`ПРОИЗОШЛА ОШИБКА: ${response.status} `)
-  //   }
-  // })
-  // .catch((err) => { console.error(err); })
-
 };
 
 export const checkToken = (token) => {
@@ -77,22 +53,19 @@ export const checkToken = (token) => {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`
       },
-
     })
     .then((response) => {
-      try {
-        if (response.ok) {
-          return response.json();
-        }
-      } catch (error) {
-        return (error);
-      }
-    }
-    )
-    .catch((err) => { console.error(err); })
+      return checkError(response);
+    })
+  // .then((response) => {
+  //   try {
+  //     if (response.ok) {
+  //       return response.json();
+  //     }
+  //   } catch (error) {
+  //     return (error);
+  //   }
+  // }
+  // )
+  // .catch((err) => { console.error(err); })
 };
-
-
-
-
-

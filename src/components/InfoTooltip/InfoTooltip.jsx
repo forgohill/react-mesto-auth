@@ -1,18 +1,15 @@
 import React from 'react';
 
 const InfoTooltip = ({
-  isLoggedIn,
   openPopup,
   closePopup,
   onOverlayClick,
   sourceInfoTooltips }) => {
 
-  console.log(sourceInfoTooltips)
   const { message, access } = sourceInfoTooltips;
+
   return (
     <div className={`popup popup_info-tool-tip ${openPopup ? "popup_opened" : ""}`}
-      // <div className='popup popup_info-tool-tip popup_opened'
-
       onClick={onOverlayClick}
     >
       <div className="popup__container">

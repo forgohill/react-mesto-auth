@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
+import { Routes, Route, useNavigate } from 'react-router-dom'
 
 import Header from './Header/Header';
 import Main from './Main/Main';
@@ -69,7 +69,8 @@ function App() {
   }
 
   // закрытие по Escape
-  const isOpen = isOpenedPopupChangeAvatar || isOpenedPopupEditProfile || isOpenedPopupAddCard || isOpenedPopupConfirmDeleteCard || selectedCard;
+  const isOpen = isOpenedPopupChangeAvatar || isOpenedPopupEditProfile || isOpenedPopupAddCard || isOpenedPopupConfirmDeleteCard || selectedCard || isOpenedPopupInfoTooltip;
+
   React.useEffect(() => {
     function closeByEscape(e) {
       if (e.key === 'Escape') {
@@ -100,8 +101,6 @@ function App() {
     setIsOpenedPopupInfoTooltip(false);
     setSelectedCard(null);
     setSelectedConfirmDeleteCard(null);
-    // setSourceInfoTooltips({ access: false, message: '', });
-
   }
 
   // ставим/удаляем Like
@@ -203,9 +202,9 @@ function App() {
       });
   }
 
-  // ////////////////////////////////////////////////////////////////
-  // ////////////////////////////////////////////////////////////////
-  // ////////////////////////////////////////////////////////////////
+  // //////////////////////////////////////////
+  // //////////// РЕГИСТРАЦИЯ АВТОРИЗАЦИЯ /////
+  // //////////////////////////////////////////
 
   const navigate = useNavigate();
 
@@ -216,21 +215,23 @@ function App() {
       checkToken(token)
         .then((res) => {
           const { email } = res.data;
-          console.log(email);
-
           setUserEmail(email);
           setIsLoggedIn(true);
-          console.log(userEmail);
-          // console.log(isLoggedIn);
           navigate('/', { replace: true });
         })
-        .catch((err) => { console.error(err); })
+        .catch((err) => {
+          console.error(`Что-то пошло не так! Попробуйте ещё раз. ОШИБКА : ${err}`)
+          setIsOpenedPopupInfoTooltip(true);
+          setSourceInfoTooltips({
+            access: false,
+            message: 'Время использования ключа истекло, повторите вход.',
+          })
+        })
     }
   }
 
   // выполнение аторизации
   const handleLogin = (password, email) => {
-    // console.log('login');
 
     authorize(password, email)
       .then((res) => {
@@ -239,23 +240,33 @@ function App() {
           localStorage.setItem('token', token);
           setUserEmail(email);
           setIsLoggedIn(true);
-          setIsOpenedPopupInfoTooltip(true);
           navigate('/', { replace: true });
         }
       })
       .catch((err) => {
-        if (err === 401) { console.log('401') }
-        else if (err === 400) { console.log('400') };
+        if (err === 401) {
+          console.error('Введен неверный пароль или Email. ОШИБКА : 401')
+          setIsOpenedPopupInfoTooltip(true);
+          setSourceInfoTooltips({
+            access: false,
+            message: 'Невереный пароль или Email, проверте данные.',
+          })
+        } else if (err !== 401) {
+          console.error(`Что-то пошло не так! Попробуйте ещё раз. ОШИБКА : ${err}`)
+          setIsOpenedPopupInfoTooltip(true);
+          setSourceInfoTooltips({
+            access: false,
+            message: 'Что-то пошло не так! Попробуйте ещё раз.',
+          })
+        }
       })
   }
 
   // выполнение регистрации / register
   const handleRegister = (password, email) => {
-    console.log('register');
 
     register(password, email)
       .then((res) => {
-        console.log(res);
         setSourceInfoTooltips({
           access: true,
           message: 'Вы успешно зарегистрировались!',
@@ -265,16 +276,23 @@ function App() {
         navigate('/sign-in', { replace: true });
       })
       .catch((err) => {
-
-        setSourceInfoTooltips({
-          access: false,
-          message: 'Это e-mail уже зарегестрирован, войдите используя пароль',
-        })
-        setIsOpenedPopupInfoTooltip(true);
-        console.error(err);
+        if (err === 400) {
+          console.error(`Это e-mail уже зарегестрирован, войдите используя пароль. ОШИБКА : ${err}`);
+          setSourceInfoTooltips({
+            access: false,
+            message: 'Это e-mail уже зарегестрирован, войдите используя пароль.',
+          })
+          setIsOpenedPopupInfoTooltip(true);
+        } else if (err !== 400) {
+          console.error(`Что-то пошло не так! Попробуйте ещё раз. ОШИБКА : ${err}`);
+          setSourceInfoTooltips({
+            access: false,
+            message: 'Что-то пошло не так! Попробуйте ещё раз.',
+          })
+          setIsOpenedPopupInfoTooltip(true);
+        }
       });
   }
-
 
   // удаление токена
   const removeToken = () => {
@@ -314,7 +332,7 @@ function App() {
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
 
-        <Header isLoggedIn={isLoggedIn} userEmail={userEmail} onSignOut={removeToken} />
+        <Header userEmail={userEmail} onSignOut={removeToken} />
         <Routes>
           <Route path='/' element={
             <>
@@ -343,10 +361,7 @@ function App() {
               onLogin={handleLogin}
             />}
           />
-
-
         </Routes>
-
 
         {/* ПРЕВЬЮХА */}
         <ImagePopup
@@ -396,63 +411,11 @@ function App() {
         </DeletePlacePopup>
 
         <InfoTooltip
-          isLoggedIn={isLoggedIn}
           openPopup={isOpenedPopupInfoTooltip}
           closePopup={closeAllPopups}
           onOverlayClick={handleOverlayClick}
           sourceInfoTooltips={sourceInfoTooltips}
         ></InfoTooltip>
-
-        <div className='popup popup_info-tool-tip'
-        // <div className='popup popup_info-tool-tip popup_opened'
-
-        // onClick={onOverlayClick}
-        >
-          <div className="popup__container">
-
-            <div className='popup__union popup__union_type_access'>
-            </div>
-
-            <h2 className="popup__title popup__title_info-tool-tip">Вы успешно зарегистрировались!</h2>
-
-            <button
-              type="button"
-              name="button-close"
-              aria-label="Закрыть окно"
-              className="popup__close popup__close_edit links"
-            // onClick={closePopup}
-            >
-            </button>
-
-          </div>
-        </div>
-
-
-        <div className='popup popup_info-tool-tip'
-        // <div className='popup popup_info-tool-tip popup_opened'
-
-        // onClick={onOverlayClick}
-        >
-          <div className="popup__container">
-
-            <div className='popup__union popup__union_type_fail'>
-            </div>
-
-            <h2 className="popup__title popup__title_info-tool-tip">Что-то пошло не так!
-              Попробуйте ещё раз.</h2>
-
-            <button
-              type="button"
-              name="button-close"
-              aria-label="Закрыть окно"
-              className="popup__close popup__close_edit links"
-            // onClick={closePopup}
-            >
-            </button>
-
-          </div>
-        </div>
-
 
       </CurrentUserContext.Provider >
 

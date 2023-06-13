@@ -1,8 +1,4 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-
-// import { authorize } from '../../utils/auth'
-
 
 const Login = ({ onLogin }) => {
 
@@ -10,8 +6,6 @@ const Login = ({ onLogin }) => {
     email: '',
     password: ''
   });
-
-  // const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,8 +20,6 @@ const Login = ({ onLogin }) => {
     e.preventDefault();
     const { email, password } = formValue;
     onLogin(password, email);
-
-    console.log(formValue);
   }
 
   return (

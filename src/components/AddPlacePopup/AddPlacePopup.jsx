@@ -15,7 +15,6 @@ function AddPlacePopup({
 
   const handleAddPlaceSubmit = (e) => {
     e.preventDefault();
-    console.log(values);
     const { inputFoto, inputLink } = values;
     onUpdateCards({
       name: inputFoto,
