@@ -6,7 +6,7 @@ const PageNotFound = () => {
     <div className='page-not-found'>
       <div className='page-not-found__wrapper'>
         <h1
-          className='page-not-found__title'> Вы потерялись... такой страницы не сеществует...
+          className='page-not-found__title'> Вы потерялись... такой страницы не существует...
         </h1>
         <p className='page-not-found__subtitle'>
           Но всегда можно вернуться <span
