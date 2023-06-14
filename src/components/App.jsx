@@ -316,11 +316,15 @@ function App() {
     navigate('/sign-in', { replace: true });
   }
 
+  // API чекаем токен
+  React.useEffect(() => {
+    tockenCheck();
+  }, [isLoggedIn]);
+
+
+
   // первая инициализация данных с сервера
   React.useEffect(() => {
-
-    // API чекаем токен
-    tockenCheck();
 
     // API получения и запись стейта текущийЮзер
     api.getUserInfo()
