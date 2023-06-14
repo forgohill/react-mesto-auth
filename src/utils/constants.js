@@ -55,7 +55,7 @@ export const configAuth = {
     'Content-type': 'application/json',
   },
   endpoint: {
-    ENDPOINT_REGISER: '/signup',
+    ENDPOINT_REGISTER: '/signup',
     ENDPOINT_AUTH: '/signin',
     ENDPOINT_CHECKJWL: '/users/me',
   }
