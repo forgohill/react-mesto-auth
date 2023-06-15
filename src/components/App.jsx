@@ -281,7 +281,6 @@ function App() {
           message: 'Вы успешно зарегистрировались!',
         })
         setIsOpenedPopupInfoTooltip(true);
-        setIsLoggedIn(true);
         navigate('/sign-in', { replace: true });
       })
       .catch((err) => {
@@ -319,32 +318,36 @@ function App() {
   // API чекаем токен
   React.useEffect(() => {
     tockenCheck();
-  }, [isLoggedIn]);
-
+  }, []);
 
 
   // первая инициализация данных с сервера
   React.useEffect(() => {
 
-    // API получения и запись стейта текущийЮзер
-    api.getUserInfo()
-      .then((data) => {
-        setCurrentUser(data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    // АПИ cработает только когда isLoggedIn true
+    // isLoggedIn становится true при проверке токена,
+    //  либо при правильном вводе имя и пароль
 
-    // API инициализируем карточки
-    api.getCards()
-      .then((data) => {
-        setCards(data);
-      })
-      .catch((err) => {
-        console.error(err);
-      })
+    if (isLoggedIn === true) {
+      // API получения и запись стейта текущийЮзер
+      api.getUserInfo()
+        .then((data) => {
+          setCurrentUser(data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
 
-  }, []);
+      // API инициализируем карточки
+      api.getCards()
+        .then((data) => {
+          setCards(data);
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+    }
+  }, [isLoggedIn]);
 
   return (
     <div className="page">
